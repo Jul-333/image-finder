@@ -1,0 +1,11 @@
+export const ADD_IMAGES_SEARCH = "ADD_IMAGES_SEARCH";
+export const CLEAR_IMAGES_SEARCH = "CLEAR_IMAGES_SEARCH";
+
+export const ADD_BOOKMARK = "ADD_BOOKMARK";
+export const DELETE_BOOKMARK = "DELETE_BOOKMARK";
+
+export const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
+export const SET_NUMBER_OF_PAGES = "SET_NUMBER_OF_PAGES";
+
+export const ERROR = "ERROR";
+export const LOADER = "LOADER";

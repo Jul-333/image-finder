@@ -1,25 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import "./App.css";
+import Footer from "./components/Footer/Footer";
+import Header from "./components/Header/Header";
+import NavigationMenu from "./components/NavigationMenu/NavigationMenu";
+import { MuiThemeProvider } from "@material-ui/core/styles";
+import { theme } from "./utils/ThemeMaterialUI";
+import SearchPage from "./pages/SearchPage/SearchPage";
+import BookmarksPage from "./pages/BookmarksPage/BookmarksPage";
+import { connect } from "react-redux";
+import { localStorageManager } from "./utils/localStorageManager";
 
-function App() {
+const App = ({ bookmarks }) => {
+  useEffect(() => {
+    localStorageManager(bookmarks);
+  }, [bookmarks]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <Router>
+      <MuiThemeProvider theme={theme}>
+        <div className="app">
+          <Header />
 
-export default App;
+          <main className="main">
+            <NavigationMenu />
+
+            <Switch>
+              <Route exact path="/">
+                <SearchPage />
+              </Route>
+              <Route exact path="/bookmarks">
+                <BookmarksPage />
+              </Route>
+            </Switch>
+          </main>
+
+          <Footer />
+        </div>
+      </MuiThemeProvider>
+    </Router>
+  );
+};
+
+const mapStateToProps = (state) => ({
+  bookmarks: state.bookmarks,
+});
+
+export default connect(mapStateToProps)(App);
