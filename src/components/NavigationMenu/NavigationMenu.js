@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Paper, Tabs, Tab } from "@material-ui/core";
 import { Cloud, Bookmarks } from "@material-ui/icons";
@@ -6,7 +6,9 @@ import { useStyles } from "./materialUIStyles";
 
 const NavigationMenu = () => {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(
+    window.location.pathname === "/bookmarks" ? 1 : 0
+  );
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

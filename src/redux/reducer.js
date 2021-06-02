@@ -35,7 +35,7 @@ export default function imageReducer(state = initialState, action) {
     case ADD_BOOKMARK:
       return {
         ...state,
-        bookmarks: [...state.bookmarks, action.payload],
+        bookmarks: [...state.bookmarks, ...action.payload],
       };
 
     case DELETE_BOOKMARK:

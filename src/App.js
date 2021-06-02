@@ -9,11 +9,17 @@ import { theme } from "./utils/ThemeMaterialUI";
 import SearchPage from "./pages/SearchPage/SearchPage";
 import BookmarksPage from "./pages/BookmarksPage/BookmarksPage";
 import { connect } from "react-redux";
-import { localStorageManager } from "./utils/localStorageManager";
+import { getLocalStorage, setLocalStorage } from "./utils/localStorageManager";
+import { addBookmark } from "./redux/actions/actions";
 
-const App = ({ bookmarks }) => {
+const App = ({ bookmarks, addBookmark }) => {
   useEffect(() => {
-    localStorageManager(bookmarks);
+    const bookmarks = getLocalStorage();
+    bookmarks && addBookmark(bookmarks);
+  }, []);
+
+  useEffect(() => {
+    setLocalStorage(bookmarks);
   }, [bookmarks]);
 
   return (
@@ -46,4 +52,7 @@ const mapStateToProps = (state) => ({
   bookmarks: state.bookmarks,
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = {
+  addBookmark,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(App);

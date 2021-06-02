@@ -90,10 +90,10 @@ export const bookmarksManager =
     if (flag === "add") {
       const bookmarkObj = newImagesArr.find((item) => item.id === id);
       dispatch(
-        addBookmark({
+        addBookmark([{
           ...bookmarkObj,
           tags: valueUserTags ? valueUserTags : "No tags",
-        })
+        }])
       );
     }
 

@@ -49,7 +49,7 @@ const CardElement = ({ image, bookmarksManager, deleteBookmarkWrapper }) => {
         <InputBase
           className={classes.inputContainer}
           placeholder="Enter tags"
-          inputProps={{ "aria-label": "Enter tags", maxLength: 30 }}
+          inputProps={{ "aria-label": "Enter tags", maxLength: 28 }}
           onChange={(event) => {
             setValue(event.target.value);
           }}
