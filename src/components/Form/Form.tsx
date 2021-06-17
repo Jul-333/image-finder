@@ -3,7 +3,7 @@ import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import useDebounce from "../../utils/useDebounce";
 import { useDispatch, useSelector } from "react-redux";
-import { getImages, clearImages } from "../../redux/actions/actions";
+import { getImagesCallSaga, clearImages } from "../../redux/actions/actions";
 import { useStyles } from "./materialUIStyles";
 import { InitialStateType } from "../../redux/reducer";
 
@@ -22,7 +22,7 @@ const Form: FC = () => {
   useEffect(() => {
     dispatch(clearImages());
     if (value.trim() !== "") {
-      dispatch(getImages(value));
+      dispatch(getImagesCallSaga(value));
     }
   }, [dispatch, debouncedValue, currentPage]);
 

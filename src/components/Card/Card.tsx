@@ -6,12 +6,9 @@ import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import { useStyles } from "./materialUIStyles";
 import imageNotFound from "../../images/image-not-found.jpg";
-import {
-  bookmarksManager,
-  deleteBookmarkWrapper,
-} from "../../redux/actions/actions";
 import { useDispatch } from "react-redux";
 import { ImagesType } from "../../redux/typesTS";
+import { deleteBookmarkCallSaga, addBookmarkCallSaga } from "../../redux/actions/actions";
 
 type OwnPropsType = {
   image: ImagesType,
@@ -24,15 +21,13 @@ const CardElement: FC<OwnPropsType> = ({ image }) => {
   const isBookmarksGallery: boolean = window.location.pathname === "/bookmarks";
   const colorButton: string = image.isBookmark ? "gray" : "#f10f0f";
 
-  const actionBookmark = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string | undefined, isBookmark: boolean) => {
+  const actionBookmark = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    id: string | undefined,
+    isBookmark: boolean
+  ) => {
     event.preventDefault();
-    if (!isBookmarksGallery) {
-      isBookmark
-        ? dispatch(bookmarksManager("delete", id, isBookmark))
-        : dispatch(bookmarksManager("add", id, isBookmark, value));
-    } else {
-      dispatch(deleteBookmarkWrapper(id));
-    }
+    isBookmark ? dispatch(deleteBookmarkCallSaga(id, isBookmark)) : dispatch(addBookmarkCallSaga(id, isBookmark, value));
   };
 
   return (

@@ -2,7 +2,6 @@
 import { ActionsType } from "./actions/actions";
 import { ImagesType } from "./typesTS";
 
-
 const initialState = {
   images: [] as Array<ImagesType>|[] ,
   bookmarks: [] as Array<ImagesType> | [],
