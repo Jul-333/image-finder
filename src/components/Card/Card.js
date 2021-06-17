@@ -7,12 +7,12 @@ import InputBase from "@material-ui/core/InputBase";
 import { useStyles } from "./materialUIStyles";
 import imageNotFound from "../../images/image-not-found.jpg";
 import {
-  bookmarksManager,
-  deleteBookmarkWrapper,
+  addBookmarkSaga,
+  deleteBookmarkSaga,
 } from "../../redux/actions/actions";
 import { connect } from "react-redux";
 
-const CardElement = ({ image, bookmarksManager, deleteBookmarkWrapper }) => {
+const CardElement = ({ image, addBookmarkSaga, deleteBookmarkSaga }) => {
   const classes = useStyles();
   const [value, setValue] = useState("");
   const isBookmarksGallery = !!image.tags;
@@ -20,13 +20,13 @@ const CardElement = ({ image, bookmarksManager, deleteBookmarkWrapper }) => {
 
   const actionBookmark = (event, id, isBookmark) => {
     event.preventDefault();
-    if (!isBookmarksGallery) {
+    // if (!isBookmarksGallery) {
       isBookmark
-        ? bookmarksManager("delete", id, isBookmark)
-        : bookmarksManager("add", id, isBookmark, value);
-    } else {
-      deleteBookmarkWrapper(id);
-    }
+        ? deleteBookmarkSaga(id,isBookmark)
+        : addBookmarkSaga(id, isBookmark, value);
+    // } else {
+    //   deleteBookmarkThunk(isBookmark, id);
+    // }
   };
 
   return (
@@ -73,8 +73,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  bookmarksManager,
-  deleteBookmarkWrapper,
+  addBookmarkSaga,
+  deleteBookmarkSaga,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardElement);

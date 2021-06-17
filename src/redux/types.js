@@ -9,3 +9,7 @@ export const SET_NUMBER_OF_PAGES = "SET_NUMBER_OF_PAGES";
 
 export const ERROR = "ERROR";
 export const LOADER = "LOADER";
+
+export const GET_IMAGES_ASYNC = "GET_IMAGES_ASYNC";
+export const DELETE_BOOKMARK_SAGA = "DELETE_BOOKMARK_SAGA";
+export const ADD_BOOKMARK_SAGA = "ADD_BOOKMARK_SAGA";

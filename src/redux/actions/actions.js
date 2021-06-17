@@ -1,7 +1,3 @@
-import { FLICKER } from "../../config";
-import transformArrImages from "./helpers/transformArrImages";
-import { axiosHelper } from "./helpers/axios";
-import { toggleImageBookmark } from "./helpers/toggleImageBookmark";
 import {
   ADD_IMAGES_SEARCH,
   CLEAR_IMAGES_SEARCH,
@@ -11,6 +7,9 @@ import {
   ERROR,
   SET_CURRENT_PAGE,
   SET_NUMBER_OF_PAGES,
+  GET_IMAGES_ASYNC,
+  DELETE_BOOKMARK_SAGA,
+  ADD_BOOKMARK_SAGA,
 } from "../types";
 
 export const showLoader = (loading) => {
@@ -69,52 +68,82 @@ export const deleteBookmark = (bookmarkArr) => {
   };
 };
 
-export const deleteBookmarkWrapper = (id) => async (dispatch, getState) => {
-  const { bookmarks } = getState();
-  const bookmarkArr = [...bookmarks].filter((item) => item.id !== id);
-  dispatch(deleteBookmark(bookmarkArr));
-};
-
-// Manager for search page
-export const bookmarksManager =
-  (flag, id, isBookmark, valueUserTags) => async (dispatch, getState) => {
-    const { images } = getState();
-
-    // change arrImages
-    const newImagesArr = toggleImageBookmark(images, isBookmark, id);
-
-    // change bookmarks
-    if (flag === "delete") {
-      dispatch(deleteBookmarkWrapper(id));
-    }
-    if (flag === "add") {
-      const bookmarkObj = newImagesArr.find((item) => item.id === id);
-      dispatch(
-        addBookmark([{
-          ...bookmarkObj,
-          tags: valueUserTags ? valueUserTags : "No tags",
-        }])
-      );
-    }
-
-    dispatch(addImages(newImagesArr));
+export const getImages = (tagsValue) => {
+  return {
+    type: GET_IMAGES_ASYNC,
+    tagsValue,
   };
-
-export const getImages = (value) => async (dispatch, getState) => {
-  const { currentPage, bookmarks } = getState();
-  const url = `${FLICKER.url}&api_key=${FLICKER.key}&tags=${value}&${FLICKER.options}&page=${currentPage}`;
-  dispatch(showLoader(true));
-  try {
-    const [arrImages, numberOfPages] = await axiosHelper(url);
-    const resultTransformImages = await transformArrImages(
-      arrImages,
-      bookmarks
-    );
-    dispatch(addImages(resultTransformImages));
-    dispatch(setNumberOfPages(numberOfPages));
-  } catch (error) {
-    dispatch(showError(error.message));
-  } finally {
-    dispatch(showLoader(false));
-  }
 };
+
+export const deleteBookmarkSaga = (id, isBookmark) => {
+  return {
+    type: DELETE_BOOKMARK_SAGA,
+    id,
+    isBookmark,
+  };
+};
+
+export const addBookmarkSaga = (id, isBookmark, valueUserTags) => {
+  return {
+    type: ADD_BOOKMARK_SAGA,
+    id,
+    isBookmark,
+    valueUserTags,
+  };
+};
+
+// export const addBookmarkSaga =
+//   (id, isBookmark, valueUserTags) => async (dispatch, getState) => {
+//     const { images } = getState();
+//     // change arrImages
+//     const filterArrImages = toggleImageBookmark(images, isBookmark, id);
+
+//     const bookmarkObj = filterArrImages.find((item) => item.id === id);
+//     dispatch(
+//       addBookmark([
+//         {
+//           ...bookmarkObj,
+//           tags: valueUserTags ? valueUserTags : "No tags",
+//         },
+//       ])
+//     );
+//     dispatch(addImages(filterArrImages));
+//   };
+
+// export const getImages = (value) => async (dispatch, getState) => {
+//   const { currentPage, bookmarks } = getState();
+//   const url = `${FLICKER.url}&api_key=${FLICKER.key}&tags=${value}&${FLICKER.options}&page=${currentPage}`;
+//   dispatch(showLoader(true));
+//   try {
+//     const [arrImages, numberOfPages] = await axiosHelper(url);
+//     const resultTransformImages = await transformArrImages(
+//       arrImages,
+//       bookmarks
+//     );
+//     dispatch(addImages(resultTransformImages));
+//     dispatch(setNumberOfPages(numberOfPages));
+//   } catch (error) {
+//     dispatch(showError(error.message));
+//   } finally {
+//     dispatch(showLoader(false));
+//   }
+// };
+
+// export const getImages = (value) => async (dispatch, getState) => {
+//   const { currentPage, bookmarks } = getState();
+//   const url = `${FLICKER.url}&api_key=${FLICKER.key}&tags=${value}&${FLICKER.options}&page=${currentPage}`;
+//   dispatch(showLoader(true));
+//   try {
+//     const [arrImages, numberOfPages] = await axiosHelper(url);
+//     const resultTransformImages = await transformArrImages(
+//       arrImages,
+//       bookmarks
+//     );
+//     dispatch(addImages(resultTransformImages));
+//     dispatch(setNumberOfPages(numberOfPages));
+//   } catch (error) {
+//     dispatch(showError(error.message));
+//   } finally {
+//     dispatch(showLoader(false));
+//   }
+// };

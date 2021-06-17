@@ -20,6 +20,7 @@ const Form = ({ getImages, clearImages, currentPage }) => {
     clearImages();
     if (value.trim() !== "") {
       getImages(value);
+      
     }
   }, [debouncedValue, currentPage]);
 

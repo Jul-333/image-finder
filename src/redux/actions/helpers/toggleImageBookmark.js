@@ -1,6 +1,8 @@
-export const toggleImageBookmark = (images, isBookmark, id) => {
-  const bookmarkIndex = images.findIndex((item) => item.id === id);
-  const newImagesArr = [...images];
-  newImagesArr[bookmarkIndex].isBookmark = !isBookmark;
-  return newImagesArr;
+export const toggleImageBookmark = (images, isBookmarkValue, id) => {
+  return images.map((item, indx) => {
+    if (item.id === id) {
+      item.isBookmark = !isBookmarkValue;
+    }
+    return item;
+  });
 };
